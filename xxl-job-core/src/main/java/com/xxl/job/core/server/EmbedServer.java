@@ -35,6 +35,7 @@ public class EmbedServer {
 
     public void start(final String address, final int port, final String appname, final String accessToken) {
         executorBiz = new ExecutorBizImpl();
+        // 通过后台线程启动Netty的ServerBootstrap
         thread = new Thread(new Runnable() {
 
             @Override
@@ -86,6 +87,7 @@ public class EmbedServer {
                     logger.info(">>>>>>>>>>> xxl-job remoting server start success, nettype = {}, port = {}", EmbedServer.class, port);
 
                     // start registry
+                    // 在启动的时候, 就往xxl-job admin调度中心注册自己
                     startRegistry(appname, address);
 
                     // wait util stop

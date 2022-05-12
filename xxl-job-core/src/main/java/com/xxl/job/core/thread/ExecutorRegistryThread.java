@@ -35,6 +35,7 @@ public class ExecutorRegistryThread {
             return;
         }
 
+        // 开启一个后台线程, 往xxl-job admin调度中心注册自己
         registryThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -45,6 +46,7 @@ public class ExecutorRegistryThread {
                         RegistryParam registryParam = new RegistryParam(RegistryConfig.RegistType.EXECUTOR.name(), appname, address);
                         for (AdminBiz adminBiz: XxlJobExecutor.getAdminBizList()) {
                             try {
+                                // 真正去注册的代码, 实现类是com.xxl.job.core.biz.client.AdminBizClient
                                 ReturnT<String> registryResult = adminBiz.registry(registryParam);
                                 if (registryResult!=null && ReturnT.SUCCESS_CODE == registryResult.getCode()) {
                                     registryResult = ReturnT.SUCCESS;

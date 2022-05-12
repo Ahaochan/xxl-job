@@ -81,6 +81,7 @@ public class XxlJobExecutor  {
         TriggerCallbackThread.getInstance().start();
 
         // init executor-server
+        // 启动Netty的ServerBootstrap, 和xxl-job admin调度中心通信
         initEmbedServer(address, ip, port, appname, accessToken);
     }
     public void destroy(){
@@ -141,6 +142,7 @@ public class XxlJobExecutor  {
     private void initEmbedServer(String address, String ip, int port, String appname, String accessToken) throws Exception {
 
         // fill ip port
+        // 默认端口号是9999
         port = port>0?port: NetUtil.findAvailablePort(9999);
         ip = (ip!=null&&ip.trim().length()>0)?ip: IpUtil.getIp();
 
@@ -157,6 +159,7 @@ public class XxlJobExecutor  {
 
         // start
         embedServer = new EmbedServer();
+        // 启动Netty的ServerBootstrap
         embedServer.start(address, port, appname, accessToken);
     }
 
